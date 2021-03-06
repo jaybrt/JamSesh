@@ -11,7 +11,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 
-const CreateRoomPage = () => {
+const CreateRoomPage = ({ history }) => {
   const defaultVotes = 2
 
   const[guestCanPause, setGuestCanPause] = useState(true)
@@ -37,7 +37,7 @@ const CreateRoomPage = () => {
     }
     const res = await fetch('/api/create-room', requestOptoins)
     const data = await res.json()
-    console.log(data)
+    history.push(`/room/${data.code}`)
   }
 
   return(

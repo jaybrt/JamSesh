@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link, Rediredct} from 'react-router-dom'
 import RoomJoinPage from './RoomJoinPage'
 import CreateRoomPage from './CreateRoomPage'
+import Room from './Room'
 
 const HomePage = () => {
   return(
@@ -12,7 +13,8 @@ const HomePage = () => {
         </Route>
         <Route path='/join' component={RoomJoinPage} />
         <Route path='/create' component={CreateRoomPage} />
-      </Switch>
+        <Route path='/room/:roomCode' component = {Room} />
+          </Switch>
     </Router>
   )
 }
