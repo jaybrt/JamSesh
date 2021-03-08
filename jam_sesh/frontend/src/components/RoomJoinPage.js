@@ -23,27 +23,29 @@ const JoinRoomPage = () => {
   }
 
   return(
-    <Grid container spacing={1}>
-      <Grid item xs={12} align='center'>
-        <Typography variant='h4' component='h4'>Join a Room</Typography>
+    <div className='center'>
+      <Grid container spacing={1}>
+        <Grid item xs={12} align='center'>
+          <Typography variant='h4' component='h4'>Join a Room</Typography>
+        </Grid>
+        <Grid item xs={12} align='center'>
+          <TextField error={error}
+            label='Code'
+            placeholder='Enter a Room Code'
+            value={roomCode}
+            helperText={error}
+            variant='outlined'
+            onChange={handleTextFieldChange}
+            inputProps={{ maxLength: 6}}/>
+        </Grid>
+        <Grid item xs={12} align='center'>
+          <Button variant='contained' color='primary' onClick={handleRoomButtonPressed}>Enter Room</Button>
+        </Grid>
+        <Grid item xs={12} align='center'>
+          <Button variant='contained' color='secondary' to='/' component={Link}>Back</Button>
+        </Grid>
       </Grid>
-      <Grid item xs={12} align='center'>
-        <TextField error={error}
-          label='Code'
-          placeholder='Enter a Room Code'
-          value={roomCode}
-          helperText={error}
-          variant='outlined'
-          onChange={handleTextFieldChange}
-          inputProps={{ maxLength: 6}}/>
-      </Grid>
-      <Grid item xs={12} align='center'>
-        <Button variant='contained' color='primary' onClick={handleRoomButtonPressed}>Enter Room</Button>
-      </Grid>
-      <Grid item xs={12} align='center'>
-        <Button variant='contained' color='secondary' to='/' component={Link}>Back</Button>
-      </Grid>
-    </Grid>
+    </div>
   )
 }
 

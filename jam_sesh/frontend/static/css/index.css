@@ -23,3 +23,12 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.topbar {
+  background-color: #2B3856;
+  height: 50px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  overflow: hidden;
+}

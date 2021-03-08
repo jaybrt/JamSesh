@@ -26,21 +26,23 @@ const HomePage = () => {
 
   const renderHomePage = () => {
     return(
-      <Grid container justify="center" spacing={3}>
-        <Grid item xs={12} align='center'>
-          <Typography variant='h3' component='h3'>Jam-Sesh</Typography>
+      <div className='center'>
+        <Grid container justify="center" spacing={3}>
+          <Grid item xs={12} align='center'>
+            <Typography variant='h3' component='h3'>Jam-Sesh</Typography>
+          </Grid>
+          <Grid item align='center'>
+            <Button color='primary' variant='contained' to='/join' component={Link}>
+              Join a Room
+            </Button>
+          </Grid>
+          <Grid item align='center'>
+            <Button color='secondary' variant='contained' to='/create' component={Link}>
+              Create a Room
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item align='center'>
-          <Button color='primary' variant='contained' to='/join' component={Link}>
-            Join a Room
-          </Button>
-        </Grid>
-        <Grid item align='center'>
-          <Button color='secondary' variant='contained' to='/create' component={Link}>
-            Create a Room
-          </Button>
-        </Grid>
-      </Grid>
+      </div>
     )
 }
 
