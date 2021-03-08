@@ -20,6 +20,10 @@ const HomePage = () => {
     toExistingRoom()
   }, [])
 
+  const clearRoomCode = () => {
+    setRoomCode(null)
+  }
+
   const renderHomePage = () => {
     return(
       <Grid container justify="center" spacing={3}>
@@ -45,10 +49,12 @@ const HomePage = () => {
       <Switch>
         <Route path='/' exact render={() => {
           return roomCode ? (<Redirect to={`/room/${roomCode}`} />) : (renderHomePage())
-            }}/>
+        }}/>
         <Route path='/join' component={RoomJoinPage} />
         <Route path='/create' component={CreateRoomPage} />
-        <Route path='/room/:roomCode' component = {Room} />
+        <Route path='/room/:roomCode' render={(props) => {
+          return <Room {...props} leaveRoomCallback={clearRoomCode} />
+        }} />
       </Switch>
     </Router>
   )

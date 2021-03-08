@@ -21,7 +21,7 @@ const CreateRoomPage = () => {
   }
 
   const handleRoomButtonPressed = async () => {
-    const requestOptoins = {
+    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -29,7 +29,7 @@ const CreateRoomPage = () => {
         guest_can_pause: guestCanPause,
       }),
     }
-    const res = await fetch('/api/create-room', requestOptoins)
+    const res = await fetch('/api/create-room', requestOptions)
     const data = await res.json()
     history.push(`/room/${data.code}`)
   }
