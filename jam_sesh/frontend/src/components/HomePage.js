@@ -27,10 +27,14 @@ const HomePage = () => {
           <Typography variant='h3' component='h3'>Jam-Sesh</Typography>
         </Grid>
         <Grid item align='center'>
-          <Button color='primary' variant='contained' to='/join' component={Link}>Join a Room</Button>
+          <Button color='primary' variant='contained' to='/join' component={Link}>
+            Join a Room
+          </Button>
         </Grid>
         <Grid item align='center'>
-          <Button color='secondary' variant='contained' to='/create' component={Link}>Create a Room</Button>
+          <Button color='secondary' variant='contained' to='/create' component={Link}>
+            Create a Room
+          </Button>
         </Grid>
       </Grid>
     )
