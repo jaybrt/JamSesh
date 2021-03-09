@@ -49,7 +49,7 @@ const Room = ({ match, leaveRoomCallback }) => {
             votesToSkip={votesToSkip}
             roomCode={roomCode}
             guestCanPause={guestCanPause}
-            updateCallback={console.log('hello')}
+            updateCallback={() =>{getRoomDetails}}
           />
         </Grid>
       </Grid>
