@@ -90,7 +90,7 @@ const CreateRoomPage = ({ update, votesToSkip, guestCanPause, roomCode, updateCa
     )
   }
 
-  const title = (update ? 'Update Room' : 'Create a Room')
+  const title = (update ? 'Room Settings' : 'Create a Room')
 
   return(
 
