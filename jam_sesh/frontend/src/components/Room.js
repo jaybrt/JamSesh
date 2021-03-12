@@ -13,6 +13,7 @@ const Room = ({ match, leaveRoomCallback }) => {
   const [guestCanPause, setGuestCanPause] = useState(false)
   const [isHost, setIsHost] = useState(false)
   const [settingsView, setSettingsView] = useState(false)
+  const [spotifyAuthenticated, setSpotifyAuthenticated] = useState(false)
 
   const getRoomDetails = async () => {
     const res = await fetch(`/api/get-room?code=${roomCode}`)
@@ -22,12 +23,24 @@ const Room = ({ match, leaveRoomCallback }) => {
       setVotesToSkip(data.votes_to_skip)
       setGuestCanPause(data.guest_can_pause)
       setIsHost(data.is_host)
+      isHost && authenticateSpotify()
     }
     else{
       leaveRoomCallback()
       history.push('/')
     }
 
+  }
+
+  const authenticateSpotify = async () => {
+    const res = await fetch('/spotify/is-authenticated')
+    const data = await res.json()
+    setSpotifyAuthenticated(data.Status)
+    if(!data.Status){
+      const urlRes = await fetch('/spotify/get-auth-url')
+      const urlData = await urlRes.json()
+      window.location.replace(urlData.url)
+    }
   }
 
   const leaveRoom = async () => {

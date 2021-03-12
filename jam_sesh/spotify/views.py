@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from rest_framework.response import Response
+from .util import save_user_token, is_authenticated
+from django.shortcuts import redirect
 
 # Create your views here.
 class AuthURL(APIView):
@@ -32,6 +34,21 @@ def spotify_callback(request, format=None):
     }).json()
 
     access_token = response.get('access_token')
+    token_type = response.get('token_type')
     refresh_token = response.get('refresh_token')
     expires_in = response.get('expires_in')
     error = response.get('error')
+
+    if not request.session.exists(request.session.session_key):
+        request.session.create()
+
+    save_user_token(request.session.session_key, access_token, token_type, expires_in, refresh_token)
+    return redirect('frontend:')
+
+class IsAuthenticated(APIView):
+    def get(self, request, format = None):
+        if not request.session.exists(request.session.session_key):
+            request.session.create()
+
+        authentication = is_authenticated(self.request.session.session_key)
+        return Response({'Status': authentication}, status=status.HTTP_200_OK)
