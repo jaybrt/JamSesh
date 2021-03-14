@@ -4,8 +4,9 @@ from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from rest_framework.response import Response
-from .util import save_user_token, is_authenticated
+from .util import *
 from django.shortcuts import redirect
+from api.models import Room
 
 # Create your views here.
 class AuthURL(APIView):
@@ -52,3 +53,18 @@ class IsAuthenticated(APIView):
 
         authentication = is_authenticated(self.request.session.session_key)
         return Response({'Status': authentication}, status=status.HTTP_200_OK)
+
+class CurrentSong(APIView):
+    def get(self, request, format=None):
+        room_code = self.request.session.get('room_code')
+        room = Room.objects.filter(code=room_code)
+        if room.exists():
+            room = room[0]
+        else:
+            return Response({}, status = status.HTTP_404_NOT_FOUND)
+        host = room.host
+        endpoint = '/player/currently-playing'
+        response = execute_spotify_api_request(host, endpoint)
+        print(response)
+
+        return Response(response, status.HTTP_200_OK)

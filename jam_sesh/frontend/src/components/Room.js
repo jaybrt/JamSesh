@@ -73,7 +73,8 @@ const Room = ({ match, leaveRoomCallback }) => {
     return(
       <TopBar
         Icon={settingsView ? <CloseIcon fontSize='large'/> : <SettingsIcon  fontSize='large'/>}
-        onPress={() => {setSettingsView(!settingsView)}}/>
+        onPress={() => {setSettingsView(!settingsView)}}
+        RoomCode={roomCode}/>
     )
   }
 
