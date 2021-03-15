@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, Button, Typography } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -14,6 +14,12 @@ const Room = ({ match, leaveRoomCallback }) => {
   const [isHost, setIsHost] = useState(false)
   const [settingsView, setSettingsView] = useState(false)
   const [spotifyAuthenticated, setSpotifyAuthenticated] = useState(false)
+  const [song, setSong] = useState({})
+
+  useEffect(() => {
+    let interval = setInterval(getCurrentSong, 1000);
+    return(() => clearInterval(interval))
+  }, [])
 
   const getRoomDetails = async () => {
     const res = await fetch(`/api/get-room?code=${roomCode}`)
@@ -40,6 +46,18 @@ const Room = ({ match, leaveRoomCallback }) => {
       const urlRes = await fetch('/spotify/get-auth-url')
       const urlData = await urlRes.json()
       window.location.replace(urlData.url)
+    }
+  }
+
+  const getCurrentSong = async () => {
+    const res = await fetch('/spotify/current-song')
+    if(!res.ok){
+      return({})
+    }
+    else{
+      const data = await res.json()
+      setSong(data)
+      console.log(data)
     }
   }
 
@@ -85,21 +103,6 @@ const Room = ({ match, leaveRoomCallback }) => {
           <Grid item xs={12} align='center'>
             <Typography variant='h4' component='h4'>
               Code: {roomCode}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} align='center'>
-            <Typography variant='h6' component='h6'>
-              Votes to Skip: {votesToSkip}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} align='center'>
-            <Typography variant='h6' component='h6'>
-              Guests Can Pause: {String(guestCanPause)}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} align='center'>
-            <Typography variant='h6' component='h6'>
-              Host: {String(isHost)}
             </Typography>
           </Grid>
           <Grid item xs={12} align="center">
