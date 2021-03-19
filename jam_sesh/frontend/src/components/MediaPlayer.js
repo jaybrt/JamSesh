@@ -7,6 +7,22 @@ import SkipNextIcon from '@material-ui/icons/SkipNext'
 const MediaPlayer = ({image_url, title, artist, is_playing, time, duration}) => {
   const songProgress = (time/duration) * 100
 
+  const sendPauseRequest = async () => {
+    const requestOptions = {
+      'method': 'PUT',
+      'headers': {'Content-Type': 'application/json'},
+    }
+    const res = await fetch('/spotify/pause', requestOptions)
+  }
+
+  const sendPlayRequest = async () => {
+    const requestOptions = {
+      'method': 'PUT',
+      'headers': {'Content-Type': 'application/json'},
+    }
+    const res = await fetch('/spotify/play', requestOptions)
+  }
+
   return(
     <Card>
       <Grid container alignItems='center'>
@@ -17,7 +33,7 @@ const MediaPlayer = ({image_url, title, artist, is_playing, time, duration}) => 
           <Typography component='h5' variant='h5'>{title}</Typography>
           <Typography color='textSecondary' variant='subtitle1'>{artist}</Typography>
           <div>
-            <IconButton>
+            <IconButton onClick={is_playing ? sendPauseRequest : sendPlayRequest}>
               {is_playing ? <PauseIcon /> : <PlayArrowIcon /> }
             </IconButton>
             <IconButton>

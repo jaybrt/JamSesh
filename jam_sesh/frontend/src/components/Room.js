@@ -58,7 +58,6 @@ const Room = ({ match, leaveRoomCallback }) => {
     else{
       const data = await res.json()
       setSong(data)
-      console.log(data)
     }
   }
 
