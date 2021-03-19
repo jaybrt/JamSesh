@@ -87,6 +87,7 @@ class CurrentSong(APIView):
             'title': item.get('name'),
             'artist': artist_sring,
             'time': progress,
+            'duration': duration,
             'image_url': album_cover,
             'is_playing': is_playing,
             'votes': 0,

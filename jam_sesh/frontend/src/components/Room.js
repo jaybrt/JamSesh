@@ -5,6 +5,7 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import CloseIcon from '@material-ui/icons/Close';
 import TopBar from './TopBar'
 import CreateRoomPage from './CreateRoomPage'
+import MediaPlayer from './MediaPlayer'
 
 const Room = ({ match, leaveRoomCallback }) => {
   const history = useHistory()
@@ -105,6 +106,7 @@ const Room = ({ match, leaveRoomCallback }) => {
               Code: {roomCode}
             </Typography>
           </Grid>
+          <MediaPlayer {...song}/>
           <Grid item xs={12} align="center">
             <Button color='secondary'
               variant='contained'
