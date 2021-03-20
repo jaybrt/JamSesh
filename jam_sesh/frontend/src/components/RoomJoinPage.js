@@ -8,7 +8,7 @@ const JoinRoomPage = () => {
   const [error, setError] = useState('')
 
   const handleTextFieldChange = (e) => {
-    setRoomCode(e.target.value)
+    setRoomCode(e.target.value.toUpperCase())
   }
   const handleRoomButtonPressed = async () => {
     const requestOptoins = {

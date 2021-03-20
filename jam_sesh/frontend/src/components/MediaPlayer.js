@@ -1,11 +1,23 @@
 import React from 'react'
-import { Grid, Typography, Card, IconButton, LinearProgress } from '@material-ui/core'
+import { Grid, Typography, Card, IconButton, LinearProgress, Button } from '@material-ui/core'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import PauseIcon from '@material-ui/icons/Pause'
 import SkipNextIcon from '@material-ui/icons/SkipNext'
+import { makeStyles } from '@material-ui/core/styles'
 
-const MediaPlayer = ({image_url, title, artist, is_playing, time, duration}) => {
+const skipStyles = makeStyles({
+  root: {
+    color: 'grey',
+  },
+  label: {
+    flexDirection: 'column',
+  }
+})
+
+const MediaPlayer = ({image_url, title, artist, is_playing, time, duration, votes, votes_required}) => {
   const songProgress = (time/duration) * 100
+
+  const skipClasses = skipStyles()
 
   const sendPauseRequest = async () => {
     const requestOptions = {
@@ -23,6 +35,14 @@ const MediaPlayer = ({image_url, title, artist, is_playing, time, duration}) => 
     const res = await fetch('/spotify/play', requestOptions)
   }
 
+  const sendSkipRequest = async () =>{
+    const requestOptions = {
+      'method': 'POST',
+      'headers': {'Content-Type': 'application/json'},
+    }
+    const res = await fetch('/spotify/skip', requestOptions)
+  }
+
   return(
     <Card>
       <Grid container alignItems='center'>
@@ -36,9 +56,10 @@ const MediaPlayer = ({image_url, title, artist, is_playing, time, duration}) => 
             <IconButton onClick={is_playing ? sendPauseRequest : sendPlayRequest}>
               {is_playing ? <PauseIcon /> : <PlayArrowIcon /> }
             </IconButton>
-            <IconButton>
-              <SkipNextIcon />
-            </IconButton>
+            <Button classes={{label: skipClasses.label, root: skipClasses.root}}
+              onClick={sendSkipRequest}>
+              <SkipNextIcon />{votes} / {votes_required}
+            </Button>
           </div>
         </Grid>
       </Grid>

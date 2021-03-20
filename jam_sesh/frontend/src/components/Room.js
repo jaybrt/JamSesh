@@ -51,13 +51,18 @@ const Room = ({ match, leaveRoomCallback }) => {
   }
 
   const getCurrentSong = async () => {
-    const res = await fetch('/spotify/current-song')
-    if(!res.ok){
-      return({})
+    try{
+      const res = await fetch('/spotify/current-song')
+      if(!res.ok){
+        return({})
+      }
+      else{
+        const data = await res.json()
+        setSong(data)
+      }
     }
-    else{
-      const data = await res.json()
-      setSong(data)
+    catch (err){
+    //pass
     }
   }
 
