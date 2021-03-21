@@ -69,3 +69,8 @@ const MediaPlayer = ({image_url, title, artist, is_playing, time, duration, vote
 }
 
 export default MediaPlayer
+
+MediaPlayer.defaultProps = {
+  image_url: '../../static/images/music_placeholder_image.jpg',
+  title: 'Loading Music',
+}
