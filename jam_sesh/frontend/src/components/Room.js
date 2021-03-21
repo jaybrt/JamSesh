@@ -2,18 +2,41 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Button, Typography } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import SettingsIcon from '@material-ui/icons/Settings'
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@material-ui/icons/Close'
+import AddIcon from '@material-ui/icons/Add'
 import TopBar from './TopBar'
 import CreateRoomPage from './CreateRoomPage'
 import MediaPlayer from './MediaPlayer'
+import SearchPage from './SearchPage'
 
 const Room = ({ match, leaveRoomCallback }) => {
   const history = useHistory()
 
+  const pages = {
+    MAIN: 'pages.main',
+    SETTINGS: 'pages.settings',
+    SEARCH: 'pages.search',
+  }
+
+  const settingsButton = {
+    Icon: <SettingsIcon  fontSize='large'/>,
+    onPress: ()=>{setPage(pages.SETTINGS)},
+  }
+
+  const searchButton = {
+    Icon: <AddIcon fontSize='large' />,
+    onPress: ()=>{setPage(pages.SEARCH)},
+  }
+
+  const closeButton = {
+    Icon: <CloseIcon fontSize='large'/>,
+    onPress: ()=>{setPage(pages.MAIN)},
+  }
+
   const [votesToSkip, setVotesToSkip] = useState(2)
   const [guestCanPause, setGuestCanPause] = useState(false)
   const [isHost, setIsHost] = useState(false)
-  const [settingsView, setSettingsView] = useState(false)
+  const [page, setPage] = useState(pages.MAIN)
   const [spotifyAuthenticated, setSpotifyAuthenticated] = useState(false)
   const [song, setSong] = useState({})
 
@@ -92,11 +115,31 @@ const Room = ({ match, leaveRoomCallback }) => {
     )
   }
 
-  const rendersSettingsButton = () => {
+  const renderSearch = () => {
+    return(
+      <Grid container spacing={1}>
+        <Grid item align='center'>
+          <SearchPage />
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const renderButtons = () => {
+    let buttons = []
+    if(page !== pages.MAIN){
+      buttons = [closeButton]
+    }else{
+      if(isHost){
+        buttons = [settingsButton, searchButton]
+      }else{
+        buttons = [searchButton]
+      }
+    }
+
     return(
       <TopBar
-        Icon={settingsView ? <CloseIcon fontSize='large'/> : <SettingsIcon  fontSize='large'/>}
-        onPress={() => {setSettingsView(!settingsView)}}
+        Buttons={buttons}
         RoomCode={roomCode}/>
     )
   }
@@ -123,14 +166,26 @@ const Room = ({ match, leaveRoomCallback }) => {
     )
   }
 
+  const renderPage = () => {
+    let ret = ''
+    if(page === pages.SETTINGS){
+      ret = renderSettings()
+    }else if(page === pages.SEARCH){
+      ret = renderSearch()
+    }else{
+      ret = renderRoom()
+    }
+    return ret
+  }
+
   const roomCode = match.params.roomCode
   getRoomDetails()
 
 
   return(
     <>
-      {isHost && rendersSettingsButton()}
-      {settingsView ? renderSettings() : renderRoom()}
+      {renderButtons()}
+      {renderPage()}
     </>
 
 
