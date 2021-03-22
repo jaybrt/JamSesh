@@ -163,16 +163,27 @@ class SearchSong(APIView):
             artist = song.get('artists')[0].get('name')
             image_url = song.get('album').get('images')[2].get('url')
             duration = song.get('duration_ms')
-            id = song.get('id')
+            id = song.get('uri')
             songs.append({
                 'name': name,
                 'artist': artist,
                 'image_url': image_url,
                 'duration': duration,
-                'id': id
+                'uri': id
             })
         songs_response = {
         'songs': songs
         }
 
         return Response(songs_response, status=status.HTTP_200_OK)
+
+class QueueSong(APIView):
+    def post(self, request, format=None):
+        room_code = self.request.session.get('room_code')
+        room = Room.objects.filter(code=room_code)[0]
+        uri = self.request.data.get('uri')
+        url = Request('POST', 'https://api.spotify.com/v1/me/player/queue', params={'uri': uri}).prepare().url
+        tokens = get_user_tokens(room.host)
+        header ={'Content-Type': 'application/json', 'Authorization': f'Bearer {tokens.access_token}'}
+        response = post(url, headers=header)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)

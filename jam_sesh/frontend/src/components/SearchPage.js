@@ -17,6 +17,19 @@ const SearchPage = () => {
     setSongs(data.songs)
   }
 
+  const queueSong = async (uri) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        uri: uri,
+      }),
+    }
+
+    const res = await fetch('/spotify/queue', requestOptions)
+    res.ok && console.log('Queued')
+  }
+
   return(
     <div className='center'>
       <Grid container spacing={1} align='center'>
@@ -53,7 +66,7 @@ const SearchPage = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <IconButton>
+                    <IconButton onClick={()=>{queueSong(song.uri)}}>
                       <AddIcon />
                     </IconButton>
                   </Grid>
