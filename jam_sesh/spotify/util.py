@@ -56,7 +56,9 @@ def refresh_token(tokens):
     save_user_token(session_key, access_token, token_type, expires_in, refresh_token)
 
 def execute_spotify_api_request(session_key, endpoint, post_=False, put_=False, data={}):
+
     tokens = get_user_tokens(session_key)
+    print(tokens)
     header ={'Content-Type': 'application/json', 'Authorization': f'Bearer {tokens.access_token}'}
 
     if post_:
